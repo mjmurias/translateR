@@ -8,6 +8,9 @@ function(x, api.key, source.lang, target.lang){
     
     api.url <- paste(base, key.str, query, source.str, target.str, sep = '')
  
-    translated <- fromJSON(getURL(api.url, .opts = list(ssl.verifypeer = FALSE)))$data$translations[[1]]
-    return(translated)
+    resp = GET(url=api.url[1])
+    resp = rawToChar(resp$content)
+    Encoding(resp) <-"UTF-8"
+    translated  = fromJSON(resp)$data$translations[[1]]
+   return(translated)
 }
